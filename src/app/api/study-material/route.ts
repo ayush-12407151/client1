@@ -55,6 +55,42 @@ export async function POST(req: NextRequest) {
   }
 }
 
+// PUT - admin only: edit material
+export async function PUT(req: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session || session.user.role !== "ADMIN") {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    await connectToDatabase();
+    const body = await req.json();
+
+    if (!body.id) {
+      return NextResponse.json({ message: "Material ID is required" }, { status: 400 });
+    }
+
+    const updated = await StudyMaterial.findByIdAndUpdate(
+      body.id,
+      {
+        title: body.title,
+        description: body.description,
+        url: body.url,
+        category: body.category,
+      },
+      { new: true }
+    );
+
+    if (!updated) {
+      return NextResponse.json({ message: "Material not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ message: "Updated successfully", material: updated }, { status: 200 });
+  } catch (error: any) {
+    return NextResponse.json({ message: error.message }, { status: 500 });
+  }
+}
+
 // DELETE - admin only
 export async function DELETE(req: NextRequest) {
   try {

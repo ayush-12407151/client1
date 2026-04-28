@@ -37,9 +37,16 @@ export default function AdminStudyMaterialPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">Study Material</h2>
-        <p className="text-slate-500 mt-1">Add videos, notes and assignments for your students.</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">Study Material</h2>
+          <p className="text-slate-500 mt-1">Add videos, notes and assignments for your students.</p>
+        </div>
+        <Link href="/admin/study-material/manage">
+          <div className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 rounded-xl text-sm font-semibold text-slate-700 transition-colors cursor-pointer">
+            Manage Existing →
+          </div>
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
