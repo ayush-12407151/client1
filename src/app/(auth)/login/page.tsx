@@ -40,8 +40,7 @@ export default function LoginPage() {
         throw new Error(res.error);
       }
 
-      router.push("/dashboard");
-      router.refresh();
+      window.location.href = "/dashboard";
     } catch (err: any) {
       setError("Invalid email or password. Please try again.");
     } finally {

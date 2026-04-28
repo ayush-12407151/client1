@@ -54,8 +54,7 @@ export default function RegisterPage() {
         throw new Error(signInRes.error);
       }
 
-      router.push("/dashboard");
-      router.refresh();
+      window.location.href = "/dashboard";
     } catch (err: any) {
       setError(err.message);
     } finally {
