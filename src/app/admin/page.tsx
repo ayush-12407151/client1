@@ -68,6 +68,8 @@ export default async function AdminDashboard() {
     monthlyRevenue.push({ month: "Jul", value: 25 }, { month: "Aug", value: 38 }, { month: "Sep", value: 45 }, { month: "Oct", value: 52 }, { month: "Nov", value: 61 }, { month: "Dec", value: 48 }, { month: "Jan", value: 72 }, { month: "Feb", value: 68 }, { month: "Mar", value: 85 }, { month: "Apr", value: 92 }, { month: "May", value: 78 }, { month: "Jun", value: 100 });
   }
 
+  const getInitials = (name: string) => name.split(" ").map((n) => n[0]).join("");
+
   return (
     <div className="space-y-8">
       <div>
@@ -122,7 +124,7 @@ export default async function AdminDashboard() {
             {recentEnrollments.map((e, i) => (
               <div key={i} className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs font-bold">{e.name.split(" ").map((n: string) => n[0]).join("")}</div>
+                  <div className="w-9 h-9 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs font-bold">{getInitials(e.name)}</div>
                   <div>
                     <p className="text-sm font-semibold text-slate-900">{e.name}</p>
                     <p className="text-xs text-slate-400">{e.course}</p>
