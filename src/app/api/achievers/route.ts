@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
 
     // If admin or instructor, show all. If public/student, show only visible
     const isAdmin = session?.user?.role === "ADMIN" || session?.user?.role === "INSTRUCTOR";
-    const filter = isAdmin ? {} : { isVisible: true };
+    const filter: Record<string, any> = isAdmin ? {} : { isVisible: true };
 
     const url = new URL(req.url);
     const year = url.searchParams.get("year");
