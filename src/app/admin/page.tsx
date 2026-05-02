@@ -44,7 +44,54 @@ export default async function AdminDashboard() {
     { name: "JEE Mains Crash Course 2026", students: 2100, revenue: "₹5,24,790", growth: "+45%" },
   ];
 
+  const stats = [
+    { title: "Total Revenue", value: `₹${totalRevenue.toLocaleString()}`, icon: <DollarSign className="h-5 w-5" />, change: "Real-time", up: true, color: "bg-emerald-50 text-emerald-600 border-emerald-100" },
+    { title: "Total Students", value: totalStudents.toString(), icon: <Users className="h-5 w-5" />, change: "Real-time", up: true, color: "bg-indigo-50 text-indigo-600 border-indigo-100" },
+    { title: "Active Courses", value: activeCourses.toString(), icon: <BookOpen className="h-5 w-5" />, change: "Live", up: true, color: "bg-amber-50 text-amber-600 border-amber-100" },
+    { title: "Faculty Members", value: facultyMembers.toString(), icon: <GraduationCap className="h-5 w-5" />, change: "Live", up: true, color: "bg-purple-50 text-purple-600 border-purple-100" },
+  ];
+  
+  // Aggregate monthly revenue dynamically
+  const monthMap: Record<string, number> = {};
+  students.forEach((student: any) => {
+    if (student.feePayments) {
+      student.feePayments.forEach((payment: any) => {
+        const monthYear = new Date(payment.datePaid).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+        monthMap[monthYear] = (monthMap[monthYear] || 0) + (payment.amount || 0);
+      });
+    }
+  });
 
+  const monthlyRevenue = Object.entries(monthMap).map(([month, value]) => ({ month, value: value / 1000 })); // scaled for UI
+  // Fallback to static if empty
+  if (monthlyRevenue.length === 0) {
+    monthlyRevenue.push({ month: "Jul", value: 25 }, { month: "Aug", value: 38 }, { month: "Sep", value: 45 }, { month: "Oct", value: 52 }, { month: "Nov", value: 61 }, { month: "Dec", value: 48 }, { month: "Jan", value: 72 }, { month: "Feb", value: 68 }, { month: "Mar", value: 85 }, { month: "Apr", value: 92 }, { month: "May", value: 78 }, { month: "Jun", value: 100 });
+  }
+
+  return (
+    <div className="space-y-8">
+      <div>
+        <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">Admin Dashboard</h2>
+        <p className="text-slate-500 mt-1">Platform overview and key metrics.</p>
+      </div>
+
+      {/* Stats */}
+      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+        {stats.map((stat, i) => (
+          <Card key={i} className={`border ${stat.color.split(" ")[2]} shadow-none`}>
+            <CardContent className="p-5">
+              <div className="flex items-center justify-between mb-3">
+                <div className={`w-10 h-10 rounded-xl ${stat.color.split(" ")[0]} flex items-center justify-center ${stat.color.split(" ")[1]}`}>{stat.icon}</div>
+                <div className={`flex items-center gap-1 text-xs font-bold ${stat.up ? "text-emerald-600" : "text-red-500"}`}>
+                  {stat.up ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}{stat.change}
+                </div>
+              </div>
+              <p className="text-2xl font-extrabold text-slate-900">{stat.value}</p>
+              <p className="text-xs text-slate-500 font-medium mt-1">{stat.title}</p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
 
       <div className="grid gap-6 lg:grid-cols-5">
         {/* Revenue Chart */}
@@ -75,7 +122,7 @@ export default async function AdminDashboard() {
             {recentEnrollments.map((e, i) => (
               <div key={i} className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs font-bold">{e.name.split(" ").map(n => n[0]).join("")}</div>
+                  <div className="w-9 h-9 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs font-bold">{e.name.split(" ").map((n: string) => n[0]).join("")}</div>
                   <div>
                     <p className="text-sm font-semibold text-slate-900">{e.name}</p>
                     <p className="text-xs text-slate-400">{e.course}</p>

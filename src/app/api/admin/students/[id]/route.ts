@@ -4,7 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
 import { User } from "@/lib/models/user.model";
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await getServerSession(authOptions);
     if (!session || (session.user.role !== "ADMIN" && session.user.role !== "INSTRUCTOR")) {
@@ -13,7 +13,8 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 
     await connectToDatabase();
     
-    const student = await User.findById(params.id).lean();
+    const { id } = await params;
+    const student = await User.findById(id).lean();
     if (!student || student.role !== "STUDENT") {
       return NextResponse.json({ message: "Student not found" }, { status: 404 });
     }
@@ -24,7 +25,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await getServerSession(authOptions);
     if (!session || session.user.role !== "ADMIN") {
@@ -34,7 +35,8 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     await connectToDatabase();
     const body = await req.json();
 
-    const student = await User.findById(params.id);
+    const { id } = await params;
+    const student = await User.findById(id);
     if (!student || student.role !== "STUDENT") {
       return NextResponse.json({ message: "Student not found" }, { status: 404 });
     }
@@ -74,7 +76,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await getServerSession(authOptions);
     if (!session || session.user.role !== "ADMIN") {
@@ -83,7 +85,8 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
 
     await connectToDatabase();
     
-    const result = await User.deleteOne({ _id: params.id, role: "STUDENT" });
+    const { id } = await params;
+    const result = await User.deleteOne({ _id: id, role: "STUDENT" });
     if (result.deletedCount === 0) {
       return NextResponse.json({ message: "Student not found" }, { status: 404 });
     }
