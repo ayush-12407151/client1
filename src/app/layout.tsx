@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/shared/Navbar";
 import { Footer } from "@/components/shared/Footer";
 import { NextAuthProvider } from "@/components/providers/NextAuthProvider";
+import { TopProgressBar } from "@/components/shared/TopProgressBar";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans bg-gray-50 text-gray-900">
         <NextAuthProvider>
+          <TopProgressBar />
           <Navbar />
           <main className="flex-1 flex flex-col w-full">
             {children}

@@ -38,6 +38,7 @@ export const authOptions: NextAuthOptions = {
           id: user._id.toString(),
           name: user.name,
           email: user.email,
+          image: user.image || "",
           role: user.role,
         };
       }
@@ -63,12 +64,13 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         // Fallback to provider id
         token.id = user.id;
-        // Fetch latest role and actual DB ObjectId
+        // Fetch latest role, image, and actual DB ObjectId
         await connectToDatabase();
         const dbUser = await User.findOne({ email: user.email });
         if (dbUser) {
           token.id = dbUser._id.toString();
           token.role = dbUser.role;
+          token.image = dbUser.image || "";
         }
       }
       return token;
@@ -77,6 +79,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.role = token.role as string;
+        session.user.image = (token.image as string) || session.user.image || "";
       }
       return session;
     }

@@ -48,9 +48,17 @@ export const Navbar = () => {
                   </Button>
                 </Link>
                 <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-50 rounded-xl border border-slate-200">
-                  <div className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold">
-                    {session.user?.name?.charAt(0)?.toUpperCase() || "U"}
-                  </div>
+                  {session.user?.image ? (
+                    <img
+                      src={session.user.image}
+                      alt={session.user.name || "User"}
+                      className="w-7 h-7 rounded-full object-cover border border-indigo-200"
+                    />
+                  ) : (
+                    <div className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold">
+                      {session.user?.name?.charAt(0)?.toUpperCase() || "U"}
+                    </div>
+                  )}
                   <span className="text-sm font-medium text-slate-700 max-w-[100px] truncate">{session.user?.name}</span>
                 </div>
                 <Button variant="ghost" size="icon" className="text-slate-500 hover:text-red-500 hover:bg-red-50" onClick={() => signOut({ callbackUrl: "/" })}>

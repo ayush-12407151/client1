@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Plus, Edit2, Trash2, Eye, EyeOff } from "lucide-react";
+import { SkeletonRow } from "@/components/shared/Loaders";
 
 export default function AdminAchieversPage() {
   const [achievers, setAchievers] = useState<any[]>([]);
@@ -53,7 +54,30 @@ export default function AdminAchieversPage() {
     }
   };
 
-  if (loading) return <div className="p-10 text-center">Loading achievers...</div>;
+  if (loading) return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <div>
+          <div className="h-7 w-44 bg-slate-200 rounded-full animate-pulse" />
+          <div className="h-4 w-56 bg-slate-100 rounded-full animate-pulse mt-2" />
+        </div>
+      </div>
+      <div className="bg-white shadow rounded-lg overflow-hidden">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              {["Student", "Exam & Year", "Score / Rank", "Visibility", "Actions"].map((h) => (
+                <th key={h} className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase">{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {[...Array(4)].map((_, i) => <SkeletonRow key={i} cols={5} />)}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 
   return (
     <div className="space-y-6">

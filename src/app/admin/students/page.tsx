@@ -2,13 +2,15 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Users, Plus, Edit, Trash2, Check, X, Loader2 } from "lucide-react";
+import { Users, Plus, Edit, Trash2, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SkeletonRow } from "@/components/shared/Loaders";
 
 interface Student {
   _id: string;
   name: string;
   email: string;
+  image?: string;
   className: string;
   isEnrolled: boolean;
   monthlyFee: number;
@@ -62,7 +64,30 @@ export default function ManageStudentsPage() {
     }
   };
 
-  if (loading) return <div className="flex justify-center py-20"><Loader2 className="w-8 h-8 animate-spin text-indigo-600" /></div>;
+  if (loading) return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <div className="h-7 w-48 bg-slate-200 rounded-full animate-pulse" />
+          <div className="h-4 w-64 bg-slate-100 rounded-full animate-pulse mt-2" />
+        </div>
+      </div>
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <table className="w-full text-sm">
+          <thead className="bg-slate-50 border-b border-slate-200">
+            <tr>
+              {["Student", "Class", "Monthly Fee", "Status", "Actions"].map((h) => (
+                <th key={h} className="px-6 py-4 text-left text-xs font-semibold text-slate-400 uppercase">{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-100">
+            {[...Array(5)].map((_, i) => <SkeletonRow key={i} cols={5} />)}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 
   return (
     <div className="space-y-6">
@@ -96,8 +121,27 @@ export default function ManageStudentsPage() {
               {students.map((student) => (
                 <tr key={student._id} className="hover:bg-slate-50">
                   <td className="px-6 py-4">
-                    <div className="font-semibold text-slate-900">{student.name}</div>
-                    <div className="text-slate-500 text-xs">{student.email}</div>
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 flex-shrink-0">
+                        {student.image ? (
+                          <img
+                            className="h-10 w-10 rounded-full object-cover border border-slate-200"
+                            src={student.image}
+                            alt={student.name}
+                          />
+                        ) : (
+                          <div className="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center border border-indigo-200">
+                            <span className="text-indigo-700 font-bold text-sm">
+                              {student.name.charAt(0).toUpperCase()}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        <div className="font-semibold text-slate-900">{student.name}</div>
+                        <div className="text-slate-500 text-xs">{student.email}</div>
+                      </div>
+                    </div>
                   </td>
                   <td className="px-6 py-4 text-slate-700">{student.className || "N/A"}</td>
                   <td className="px-6 py-4 font-medium text-slate-900">₹{student.monthlyFee}</td>

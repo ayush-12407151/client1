@@ -232,8 +232,30 @@ export default function RegisterPage() {
             {/* Step 4: Password & Image */}
             <div className="space-y-2">
               <Label className="text-slate-700 font-semibold">Profile Photo (Optional)</Label>
-              <Input type="file" accept="image/*" onChange={handleImageUpload} className="h-11 pt-2.5 rounded-xl border-slate-300 focus:ring-indigo-600 focus:border-indigo-600" />
-              {uploading && <p className="text-xs text-indigo-600 font-medium animate-pulse">Uploading image...</p>}
+              <div className="flex items-center gap-4">
+                {formData.image && (
+                  <img
+                    src={formData.image}
+                    alt="Profile preview"
+                    className="h-16 w-16 rounded-full object-cover border-2 border-indigo-300 shadow-sm flex-shrink-0"
+                  />
+                )}
+                <div className="flex-1">
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    disabled={uploading}
+                    className="h-11 pt-2.5 rounded-xl border-slate-300 focus:ring-indigo-600 focus:border-indigo-600"
+                  />
+                  {uploading && (
+                    <p className="text-xs text-indigo-600 font-medium animate-pulse mt-1">⏳ Uploading image...</p>
+                  )}
+                  {formData.image && !uploading && (
+                    <p className="text-xs text-emerald-600 font-medium mt-1">✅ Photo uploaded successfully</p>
+                  )}
+                </div>
+              </div>
             </div>
 
             <div className="space-y-2">
