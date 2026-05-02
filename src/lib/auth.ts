@@ -61,11 +61,13 @@ export const authOptions: NextAuthOptions = {
     },
     async jwt({ token, user, trigger, session }) {
       if (user) {
+        // Fallback to provider id
         token.id = user.id;
-        // Fetch latest role from DB in case of update
+        // Fetch latest role and actual DB ObjectId
         await connectToDatabase();
         const dbUser = await User.findOne({ email: user.email });
         if (dbUser) {
+          token.id = dbUser._id.toString();
           token.role = dbUser.role;
         }
       }
