@@ -13,16 +13,46 @@ import { motion } from "framer-motion";
 export default function RegisterPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
+    image: "",
+    fatherName: "",
+    motherName: "",
+    schoolName: "",
+    className: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    const data = new FormData();
+    data.append("file", file);
+
+    try {
+      const res = await fetch("/api/upload", { method: "POST", body: data });
+      const result = await res.json();
+      if (res.ok) {
+        setFormData({ ...formData, image: result.url });
+      } else {
+        alert("Image upload failed");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Error uploading image");
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -147,65 +177,73 @@ export default function RegisterPage() {
             <div className="flex-grow border-t border-slate-200"></div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
               <div className="p-3 text-sm font-medium text-red-600 bg-red-50 rounded-lg border border-red-100 flex items-center">
                 <span className="mr-2">⚠️</span> {error}
               </div>
             )}
 
+            {/* Step 1: Basic Info */}
             <div className="space-y-2">
-              <Label htmlFor="name" className="text-slate-700 font-semibold">Full Name</Label>
-              <Input 
-                id="name" 
-                name="name" 
-                placeholder="Rahul Sharma" 
-                required 
-                value={formData.name}
-                onChange={handleChange}
-                className="h-12 rounded-xl border-slate-300 focus:ring-indigo-600 focus:border-indigo-600"
-              />
+              <Label htmlFor="name" className="text-slate-700 font-semibold">Full Name *</Label>
+              <Input id="name" name="name" placeholder="Rahul Sharma" required value={formData.name} onChange={handleChange} className="h-11 rounded-xl border-slate-300 focus:ring-indigo-600 focus:border-indigo-600" />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-slate-700 font-semibold">Email address</Label>
-              <Input 
-                id="email" 
-                name="email" 
-                type="email" 
-                placeholder="aspirant@example.com" 
-                required 
-                value={formData.email}
-                onChange={handleChange}
-                className="h-12 rounded-xl border-slate-300 focus:ring-indigo-600 focus:border-indigo-600"
-              />
+              <Label htmlFor="email" className="text-slate-700 font-semibold">Email address *</Label>
+              <Input id="email" name="email" type="email" placeholder="aspirant@example.com" required value={formData.email} onChange={handleChange} className="h-11 rounded-xl border-slate-300 focus:ring-indigo-600 focus:border-indigo-600" />
             </div>
-            
+
+            {/* Step 2: Parent Info */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="fatherName" className="text-slate-700 font-semibold">Father's Name</Label>
+                <Input id="fatherName" name="fatherName" placeholder="Father's Name" value={formData.fatherName} onChange={handleChange} className="h-11 rounded-xl border-slate-300 focus:ring-indigo-600 focus:border-indigo-600" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="motherName" className="text-slate-700 font-semibold">Mother's Name</Label>
+                <Input id="motherName" name="motherName" placeholder="Mother's Name" value={formData.motherName} onChange={handleChange} className="h-11 rounded-xl border-slate-300 focus:ring-indigo-600 focus:border-indigo-600" />
+              </div>
+            </div>
+
+            {/* Step 3: Academic Info */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="schoolName" className="text-slate-700 font-semibold">School/College</Label>
+                <Input id="schoolName" name="schoolName" placeholder="School Name" value={formData.schoolName} onChange={handleChange} className="h-11 rounded-xl border-slate-300 focus:ring-indigo-600 focus:border-indigo-600" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="className" className="text-slate-700 font-semibold">Class</Label>
+                <select id="className" name="className" value={formData.className} onChange={(e: any) => handleChange(e)} className="w-full h-11 px-3 py-2 rounded-xl border border-slate-300 focus:ring-indigo-600 focus:border-indigo-600 bg-white text-sm">
+                  <option value="">Select Class</option>
+                  <option value="6th">Class 6th</option>
+                  <option value="7th">Class 7th</option>
+                  <option value="8th">Class 8th</option>
+                  <option value="9th">Class 9th</option>
+                  <option value="10th">Class 10th</option>
+                  <option value="11th">Class 11th</option>
+                  <option value="12th">Class 12th</option>
+                  <option value="Dropper">Dropper</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Step 4: Password & Image */}
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-slate-700 font-semibold">Password</Label>
-              <Input 
-                id="password" 
-                name="password" 
-                type="password" 
-                placeholder="••••••••"
-                required 
-                value={formData.password}
-                onChange={handleChange}
-                className="h-12 rounded-xl border-slate-300 focus:ring-indigo-600 focus:border-indigo-600"
-              />
+              <Label className="text-slate-700 font-semibold">Profile Photo (Optional)</Label>
+              <Input type="file" accept="image/*" onChange={handleImageUpload} className="h-11 pt-2.5 rounded-xl border-slate-300 focus:ring-indigo-600 focus:border-indigo-600" />
+              {uploading && <p className="text-xs text-indigo-600 font-medium animate-pulse">Uploading image...</p>}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-slate-700 font-semibold">Password *</Label>
+              <Input id="password" name="password" type="password" placeholder="••••••••" required value={formData.password} onChange={handleChange} className="h-11 rounded-xl border-slate-300 focus:ring-indigo-600 focus:border-indigo-600" />
               <p className="text-xs text-slate-400">Must be at least 8 characters</p>
             </div>
             
-            <Button 
-              className="w-full h-12 text-base font-bold bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-lg shadow-indigo-200 transition-all hover:-translate-y-0.5" 
-              type="submit" 
-              disabled={loading}
-            >
-              {loading ? (
-                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-              ) : (
-                <>Create Account <ArrowRight className="ml-2 w-5 h-5" /></>
-              )}
+            <Button className="w-full h-12 text-base font-bold bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-lg shadow-indigo-200 transition-all hover:-translate-y-0.5 mt-2" type="submit" disabled={loading || uploading}>
+              {loading || uploading ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <>Create Account <ArrowRight className="ml-2 w-5 h-5" /></>}
             </Button>
           </form>
 

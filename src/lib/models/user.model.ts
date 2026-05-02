@@ -8,6 +8,22 @@ export interface IUser extends Document {
   role: "STUDENT" | "INSTRUCTOR" | "ADMIN";
   enrolledCourses: mongoose.Types.ObjectId[];
   wishlist: mongoose.Types.ObjectId[];
+  
+  // Student Profile Fields
+  fatherName?: string;
+  motherName?: string;
+  schoolName?: string;
+  className?: string;
+  admissionDate?: Date;
+  isEnrolled?: boolean;
+  monthlyFee?: number;
+  feePayments?: {
+    month: string;
+    amount: number;
+    datePaid: Date;
+    receiptId?: string;
+  }[];
+
   createdAt: Date;
   updatedAt: Date;
 }
@@ -25,6 +41,23 @@ const UserSchema = new Schema(
     },
     enrolledCourses: [{ type: Schema.Types.ObjectId, ref: "Course" }],
     wishlist: [{ type: Schema.Types.ObjectId, ref: "Course" }],
+    
+    // Student Profile Fields
+    fatherName: { type: String },
+    motherName: { type: String },
+    schoolName: { type: String },
+    className: { type: String },
+    admissionDate: { type: Date, default: Date.now },
+    isEnrolled: { type: Boolean, default: false },
+    monthlyFee: { type: Number, default: 0 },
+    feePayments: [
+      {
+        month: { type: String, required: true },
+        amount: { type: Number, required: true },
+        datePaid: { type: Date, default: Date.now },
+        receiptId: { type: String },
+      }
+    ]
   },
   { timestamps: true }
 );

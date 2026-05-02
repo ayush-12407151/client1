@@ -20,9 +20,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <LayoutDashboard className="text-gray-500 group-hover:text-gray-900 mr-2 md:mr-3 flex-shrink-0 h-5 w-5" />
               Dashboard
             </Link>
-            <Link href="/admin/users" className="flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900 group whitespace-nowrap">
+            <Link href="/admin/students" className="flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900 group whitespace-nowrap">
               <Users className="text-gray-400 group-hover:text-gray-500 mr-2 md:mr-3 flex-shrink-0 h-5 w-5" />
-              Manage Users
+              Manage Students
             </Link>
             <Link href="/admin/courses" className="flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900 group whitespace-nowrap">
               <BookOpen className="text-gray-400 group-hover:text-gray-500 mr-2 md:mr-3 flex-shrink-0 h-5 w-5" />
