@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Loader2, Save, Plus, Trash2, IndianRupee } from "lucide-react";
@@ -16,7 +16,9 @@ interface Payment {
   receiptId: string;
 }
 
-export default function EditStudentPage({ params }: { params: { id: string } }) {
+export default function EditStudentPage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = use(params);
+  const studentId = resolvedParams.id;
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -43,11 +45,11 @@ export default function EditStudentPage({ params }: { params: { id: string } }) 
 
   useEffect(() => {
     fetchStudent();
-  }, [params.id]);
+  }, [studentId]);
 
   const fetchStudent = async () => {
     try {
-      const res = await fetch(`/api/admin/students/${params.id}`);
+      const res = await fetch(`/api/admin/students/${studentId}`);
       const data = await res.json();
       if (res.ok) {
         setFormData({
@@ -78,7 +80,7 @@ export default function EditStudentPage({ params }: { params: { id: string } }) 
     e.preventDefault();
     setSaving(true);
     try {
-      const res = await fetch(`/api/admin/students/${params.id}`, {
+      const res = await fetch(`/api/admin/students/${studentId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -97,7 +99,7 @@ export default function EditStudentPage({ params }: { params: { id: string } }) 
     e.preventDefault();
     setAddingPayment(true);
     try {
-      const res = await fetch(`/api/admin/students/${params.id}`, {
+      const res = await fetch(`/api/admin/students/${studentId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ newPayment }),
@@ -117,7 +119,7 @@ export default function EditStudentPage({ params }: { params: { id: string } }) 
   const handleDeletePayment = async (paymentId: string) => {
     if (!confirm("Remove this payment record?")) return;
     try {
-      const res = await fetch(`/api/admin/students/${params.id}`, {
+      const res = await fetch(`/api/admin/students/${studentId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ removePaymentId: paymentId }),
