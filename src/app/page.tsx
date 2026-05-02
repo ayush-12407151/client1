@@ -10,6 +10,7 @@ import {
   ChevronRight, Sparkles, Video
 } from "lucide-react";
 import { useState } from "react";
+import { AchieversSection } from "@/components/shared/AchieversSection";
 
 const fadeUp = { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-60px" } };
 
@@ -131,6 +132,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ═══ ACHIEVERS ═══ */}
+      <AchieversSection />
+
       {/* ═══ TESTIMONIALS ═══ */}
       <section className="w-full py-20 md:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -183,7 +187,7 @@ export default function Home() {
               <p className="text-indigo-200 text-lg max-w-xl mx-auto mb-8">Join 50,000+ students already preparing with India's most trusted educators.</p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/register"><Button size="lg" className="h-14 px-10 text-base bg-white text-indigo-700 hover:bg-slate-100 font-bold rounded-xl shadow-xl">Enroll Now</Button></Link>
-                <a href="https://wa.me/919999999999" target="_blank" rel="noreferrer"><Button size="lg" className="h-14 px-10 text-base bg-indigo-800 text-white hover:bg-indigo-900 rounded-xl border border-indigo-400/30 font-bold"><Phone className="w-4 h-4 mr-2"/> Talk to Counsellor</Button></a>
+                <a href="https://wa.me/917800844212" target="_blank" rel="noreferrer"><Button size="lg" className="h-14 px-10 text-base bg-indigo-800 text-white hover:bg-indigo-900 rounded-xl border border-indigo-400/30 font-bold"><Phone className="w-4 h-4 mr-2"/> Talk to Counsellor</Button></a>
               </div>
             </div>
           </div>

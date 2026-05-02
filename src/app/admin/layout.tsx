@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { BookOpen, Users, LayoutDashboard, Settings, FileText } from "lucide-react";
+import { BookOpen, Users, LayoutDashboard, Settings, FileText, ClipboardList, Trophy } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard | Modern Study Center",
@@ -31,6 +31,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <Link href="/admin/study-material" className="flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900 group whitespace-nowrap">
               <FileText className="text-gray-400 group-hover:text-gray-500 mr-2 md:mr-3 flex-shrink-0 h-5 w-5" />
               Study Material
+            </Link>
+            <Link href="/admin/quizzes" className="flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900 group whitespace-nowrap">
+              <ClipboardList className="text-gray-400 group-hover:text-gray-500 mr-2 md:mr-3 flex-shrink-0 h-5 w-5" />
+              Quiz System
+            </Link>
+            <Link href="/admin/achievers" className="flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900 group whitespace-nowrap">
+              <Trophy className="text-gray-400 group-hover:text-gray-500 mr-2 md:mr-3 flex-shrink-0 h-5 w-5" />
+              Achievers
             </Link>
             <Link href="/admin/settings" className="flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900 group whitespace-nowrap">
               <Settings className="text-gray-400 group-hover:text-gray-500 mr-2 md:mr-3 flex-shrink-0 h-5 w-5" />

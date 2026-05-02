@@ -17,13 +17,13 @@ export const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-5">
-              <img src="/logo.png" alt="Modern Study Center" className="h-10 w-auto" />
+              <img src="/logo.jpg" alt="Modern Study Center" className="h-10 w-auto rounded" />
             </Link>
             <p className="text-sm leading-relaxed mb-6 max-w-sm">Empowering students from Class 6 to 12, JEE & NEET aspirants with premium courses, live classes and expert mentorship.</p>
             <div className="space-y-3 text-sm">
-              <div className="flex items-center gap-3"><Phone className="w-4 h-4 text-indigo-400" /> +91 99999 99999</div>
-              <div className="flex items-center gap-3"><Mail className="w-4 h-4 text-indigo-400" /> info@modernstudycenter.com</div>
-              <div className="flex items-center gap-3"><MapPin className="w-4 h-4 text-indigo-400" /> New Delhi, India</div>
+              <div className="flex items-center gap-3"><Phone className="w-4 h-4 text-indigo-400 flex-shrink-0" /> 78008 44212</div>
+              <div className="flex items-center gap-3"><Mail className="w-4 h-4 text-indigo-400 flex-shrink-0" /> msccoaching3@gmail.com</div>
+              <div className="flex items-start gap-3"><MapPin className="w-4 h-4 text-indigo-400 flex-shrink-0 mt-0.5" /> <span>PO Bhiti Rawat, Village mahdeiya, Sahjanwa,<br/>Uttar Pradesh 273209</span></div>
             </div>
           </div>
 

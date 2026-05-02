@@ -11,9 +11,9 @@ export const metadata: Metadata = {
   title: "Modern Study Center – Coaching | Learning | Growth",
   description: "India's leading platform for JEE, NEET & Board exam preparation. Live classes, test series, expert faculty & free study material for Class 6-12.",
   icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    icon: "/logo.jpg",
+    shortcut: "/logo.jpg",
+    apple: "/logo.jpg",
   },
 };
 

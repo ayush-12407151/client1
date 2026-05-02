@@ -79,7 +79,7 @@ export default function RegisterPage() {
         
         <div className="relative z-10">
           <Link href="/" className="flex items-center gap-2">
-            <img src="/logo.png" alt="Modern Study Center" className="h-12 w-auto" />
+            <img src="/logo.jpg" alt="Modern Study Center" className="h-12 w-auto rounded" />
           </Link>
         </div>
 

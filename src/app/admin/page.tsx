@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, BookOpen, DollarSign, TrendingUp, ArrowUpRight, ArrowDownRight, GraduationCap, Activity } from "lucide-react";
+import AdminQuizLeaderboard from "@/components/admin/AdminQuizLeaderboard";
 
 export default function AdminDashboard() {
   const stats = [

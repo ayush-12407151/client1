@@ -21,7 +21,7 @@ export const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link href="/" className="flex items-center gap-2">
-              <img src="/logo.png" alt="Modern Study Center" className="h-10 w-auto" />
+              <img src="/logo.jpg" alt="Modern Study Center" className="h-10 w-auto rounded" />
               <span className="font-bold text-lg text-slate-900 tracking-tight hidden sm:inline">Modern Study Center</span>
             </Link>
           </div>
@@ -31,6 +31,9 @@ export const Navbar = () => {
             <Link href="/courses?category=jee" className="text-slate-600 hover:text-indigo-600 transition-colors font-medium text-sm">JEE</Link>
             <Link href="/courses?category=neet" className="text-slate-600 hover:text-indigo-600 transition-colors font-medium text-sm">NEET</Link>
             <Link href="/educator" className="text-slate-600 hover:text-indigo-600 transition-colors font-medium text-sm">Educator</Link>
+            {session?.user?.role !== "ADMIN" && (
+              <Link href="/quizzes" className="text-slate-600 hover:text-indigo-600 transition-colors font-medium text-sm">Quizzes</Link>
+            )}
             <Link href="/free-material" className="text-slate-600 hover:text-indigo-600 transition-colors font-medium text-sm">Free Material</Link>
           </div>
 
@@ -74,6 +77,9 @@ export const Navbar = () => {
           <Link href="/courses?category=jee" className="block py-2 font-medium text-slate-700" onClick={() => setMobileOpen(false)}>JEE</Link>
           <Link href="/courses?category=neet" className="block py-2 font-medium text-slate-700" onClick={() => setMobileOpen(false)}>NEET</Link>
           <Link href="/educator" className="block py-2 font-medium text-slate-700" onClick={() => setMobileOpen(false)}>Educator</Link>
+          {session?.user?.role !== "ADMIN" && (
+            <Link href="/quizzes" className="block py-2 font-medium text-slate-700" onClick={() => setMobileOpen(false)}>Quizzes</Link>
+          )}
           <Link href="/free-material" className="block py-2 font-medium text-slate-700" onClick={() => setMobileOpen(false)}>Free Material</Link>
           <div className="flex gap-3 pt-2">
             {session ? (
